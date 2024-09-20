@@ -1,3 +1,4 @@
+# follow this steps for best experience
 # nodeJsBookStore
 # if you have an account login or not have an account then sign up
 # after login click on addtocart which book you want to add
