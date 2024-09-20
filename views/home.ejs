@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('./partials/head.ejs') %>
+  <title>Bookstore</title>
+  <style>
+    /* Custom CSS to make the cards and images consistent */
+    .card {
+      height: 450px; /* Adjust the card height as needed */
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between; /* Ensure the button stays within the card */
+    }
+    
+    .card-img-top {
+      height: 200px; /* Ensures all images have the same height */
+      object-fit: cover; /* Ensures the image covers the area without stretching */
+    }
+
+    .card-body {
+      text-align: center;
+      flex-grow: 1; /* Ensures the card body takes available space */
+    }
+
+    .card-footer {
+      text-align: center;
+    }
+
+    .btn {
+      width: 100%; /* Makes the button stretch across the card's width */
+    }
+  </style>
+</head>
+<body class="bg-light text-dark">
+  <%- include('./partials/navbar.ejs') %>
+
+  <!-- User Info Section -->
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Left side: User Info -->
+      <div class="col-md-3">
+        <div class="card mt-4">
+          <div class="card-body text-center">
+            <img src="../public/pexels-jonas-mohamadi-1416736.jpg" alt="" class="rounded-circle" width="100" height="100">
+            <h5 class="mt-3">Welcome Back</h5>
+            <h5 class="mt-3"><%= user.username %></h5>
+            <p>Email: <%= user.email %></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right side: Main Content Section with Book Cards -->
+      <div class="col-md-9">
+        <h1 class="text-center mt-4">Welcome to the Bookstore</h1>
+        
+        <!-- Book Cards Section -->
+        <div class="row mt-4">
+          <% books.forEach(book => { %> <!-- Iterate over books array -->
+            <div class="col-md-4">
+              <div class="card mb-4">
+                <img src="<%= book.coverImage %>" class="card-img-top" alt="<%= book.title %>">
+                <div class="card-body">
+                  <h5 class="card-title"><%= book.title %></h5>
+                  <p class="card-text">Author: <%= book.author %></p>
+                  <p class="card-text">Price: $<%= book.price %></p>
+                  <p class="card-text">Description: <%= book.description %></p>
+                </div>
+                <!-- <div style=" display:flex; justify-content: space-evenly; margin:15px; cursor: pointer;">
+                    <img src="/delete.png"  width="30px" height="30px"/>
+                    <img src="/edit.png"  width="30px" height="30px"/>
+                </div> -->
+                <!-- Place the button in the card footer -->
+                <div class="card-footer">
+                    <form action="/api/v1/add-to-cart" method="POST">
+                        <input type="hidden" name="bookId" value="<%= book._id %>">
+                        <button class="btn btn-primary" type="submit">Add to Cart</button>
+                      </form>
+                      
+                </div>
+              </div>
+            </div>
+          <% }) %> <!-- End iteration -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%- include('./partials/script.ejs') %>
+</body>
+</html>

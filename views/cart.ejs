@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('./partials/head.ejs') %>
+  <title>Cart</title>
+</head>
+<body class="bg-light text-dark">
+  <%- include('./partials/navbar.ejs') %>
+  <div class="container mt-4">
+   <button class="btn btn-success" onclick="window.location.href='/order-success'">Place Order</button> 
+   <button class="btn btn-success" onclick="window.location.href='/order-history'">Order History</button>
+
+    <h1>Your Cart</h1>
+    <% if (books.length > 0) { %>
+      <div class="row">
+        <% books.forEach(book => { %>
+          <div class="col-md-4 mb-4">
+            <div class="card">
+              <img src="<%= book.coverImage %>" class="card-img-top" alt="<%= book.title %>" style="height: 200px; width: auto;"/>
+              <div class="card-body">
+                <h5 class="card-title"><%= book.title %></h5>
+                <p class="card-text">Author: <%= book.author %></p>
+                <p class="card-text">Price: $<%= book.price %></p>
+
+                <% const cartItem = cart.find(item => item.bookId.toString() === book._id.toString()); %>
+                <% if (cartItem) { %>
+                  <p class="card-text">Quantity: <%= cartItem.quantity %></p>
+                <% } else { %>
+                  <p class="card-text">Quantity: Not in cart</p>
+                <% } %>
+
+                <form action="/api/v1/update-cart" method="POST">
+                  <input type="hidden" name="bookId" value="<%= book._id %>">
+                  <button class="btn btn-primary" type="submit" name="action" value="increase">Increase Quantity</button>
+                  <button class="btn btn-danger" type="submit" name="action" value="decrease">Decrease Quantity</button>
+                  <button class="btn btn-warning" type="submit" name="action" value="remove">Remove from Cart</button>
+                </form>
+                <button class="btn btn-success" onclick="buyNow('<%= book._id %>')">Buy Now</button>
+              </div>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+      
+    <% } else { %>
+      <p>Your cart is empty.</p>
+    <% } %>
+  </div>
+  
+  <script>
+    function buyNow(bookId) {
+      fetch('/api/v1/order', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ bookId })
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+        alert(data.message);
+        // Redirect to the order success page
+        window.location.href = '/order-success';
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('There was an error placing your order.');
+      });
+    }
+  </script>
+
+  <%- include('./partials/script.ejs') %>
+</body>
+</html>

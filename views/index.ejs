@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/stylesheets/index.css" />
+  <title>Document</title>
+</head>
+<body>
+  
+  <div class="container">
+    <div class="content">
+      
+      <p class="header">Register</p>
+      <% if(message.length > 0) { %>
+        <p class="error"> <%=message %> </p>
+   <% } %>
+      <form action="/api/v1/signup" method="post">
+          <input type="text"  name="username" placeholder=" enter your username" class="detail" /><br />
+        <input type="email"  name="email" placeholder=" enter your email" class="detail" /><br />
+        <input type="password"  name="password" placeholder=" enter your password" class="detail" />
+        <input type="submit" class="btn int" value="Signup"/>
+      </form>
+
+      <a href="/forget">Forgot your password?</a>
+
+     
+
+      <footer>
+        <p>
+         
+          <b>Terms of Service, Privacy policy.</b>
+        </p>
+        <hr />
+       <a href="/login">
+         <p>Already have an Account? Log in</p>
+       </a>
+
+      </footer>
+    </div>
+  </div>
+
+</body>
+</html>

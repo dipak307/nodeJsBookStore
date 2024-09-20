@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('./partials/head.ejs') %>
+  <title>Order Success</title>
+</head>
+<body class="bg-light text-dark">
+  <%- include('./partials/navbar.ejs') %>
+  <div class="container mt-4">
+    <div class="alert alert-success">
+      <h1>Thank you for your order!</h1>
+      <p>Your order has been successfully placed.</p>
+    </div>
+    <div class="order-details">
+        <h2>Your Order:</h2>
+        <ul>
+            <% orders.forEach(order => { %>
+                <li class="list-group-item">
+                  <h5>Order placed on <%= new Date(order.createdAt).toLocaleString() %></h5>
+                </li>
+                <ul class="list-group">
+                    <% order.items.forEach(item => { %>
+                      <li class="list-group-item d-flex align-items-center">
+                        <!-- Item Image -->
+                        <img src="<%= item.coverImage %>" alt="<%= item.title %>" class="img-thumbnail mr-3" style="width: 100px; height: 100px; object-fit: cover;">
+                        <!-- Item Details -->
+                        <div>
+                          <h5><strong>Title:</strong> <%= item.title %></h5>
+                          <p><strong>Quantity:</strong> <%= item.quantity %></p>
+                          <p><strong>Price:</strong> $<%= item.price %></p>
+                        </div>
+                      </li>
+                    <% }) %>
+                  </ul>
+              <% }) %>
+        </ul>
+      </div>
+    <a href="/order-history" class="btn btn-primary">View Order History</a>
+  </div>
+  <%- include('./partials/script.ejs') %>
+</body>
+</html>

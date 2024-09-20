@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('./partials/head.ejs') %>
+  <title>Order History</title>
+</head>
+<body class="bg-light text-dark">
+  <%- include('./partials/navbar.ejs') %>
+  <div class="container mt-4">
+    <h1>Your Order History</h1>
+    <% if (orders.length > 0) { %>
+      <ul class="list-group">
+        <% orders.forEach(order => { %>
+          <li class="list-group-item">
+            <h5>Order placed on <%= new Date(order.createdAt).toLocaleString() %></h5>
+            <ul>
+              <% order.items.forEach(item => { %>
+                <li>
+                  <strong>Title: <%= item.title %></strong> (Quantity: <%= item.quantity %>, Price: $<%= item.price %>)
+                </li>
+              <% }) %>
+            </ul>
+          </li>
+        <% }) %>
+      </ul>
+    <% } else { %>
+      <p>You have no previous orders.</p>
+    <% } %>
+  </div>
+  <%- include('./partials/script.ejs') %>
+</body>
+</html>
